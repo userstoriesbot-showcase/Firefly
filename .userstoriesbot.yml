@@ -1,0 +1,15 @@
+# Showcase fork only (never part of an upstream pull request).
+# pnpm 11.22 comes from package.json "packageManager" through corepack; engines need Node >= 22.23.
+# `astro dev` loads every icon set and is killed by the 3 GB app container limit, so the site is built during install and served statically.
+version: 1
+app:
+  install: "corepack enable && pnpm install --frozen-lockfile && pnpm build"
+  start: python3 -m http.server {port} -d dist --bind 0.0.0.0
+  url: http://localhost:{port}
+  readyPath: /
+  runtime: node24
+  env:
+    NODE_OPTIONS: "--max-old-space-size=2048"
+demo:
+  maxVideos: 1
+  beforePass: true
